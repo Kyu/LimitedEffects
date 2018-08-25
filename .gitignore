@@ -2,6 +2,7 @@ out/
 .idea/
 *.iml
 EnchantLimiter.java
+TODO*
 
 ### From GitHub ###
 # Compiled class file

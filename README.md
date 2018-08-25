@@ -13,6 +13,10 @@
 - Set limit at 0 to disable enchanting
 - Use command `/le reload` after any changes to config
 
+#### Download
+- [Latest Version](https://github.com/Kyu/LimitedEffects/releases/tag/v0.1.0)
+- [All Versions](https://github.com/Kyu/LimitedEffects/releases)
+
 #### TODO
 - Bypass permission
 - Minimum enchant level
