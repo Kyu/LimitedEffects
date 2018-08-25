@@ -11,10 +11,16 @@
 ## How to use
 - Change the limit number in the `config.yml` file to any number you want (Default is 6)
 - Set limit at 0 to disable enchanting
-- Use command `/le reload` after any changes to config
+
+#### Commands
+- `/le reload` : Reflects config changes in server
+
+#### Permissions
+- `limitedenchants.*` : Grants users all plugin permissions
+- `limtedenchants.reload`: Allows user to use `/le reload`
 
 #### Download
-- [Latest Version](https://github.com/Kyu/LimitedEffects/releases/tag/v0.1.0)
+- [Latest Version](https://github.com/Kyu/LimitedEffects/releases/tag/v0.2.0)
 - [All Versions](https://github.com/Kyu/LimitedEffects/releases)
 
 #### TODO

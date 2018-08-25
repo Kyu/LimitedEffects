@@ -1,10 +1,24 @@
 name: LimitedEffects
-version: 0.1.0
+version: 0.2.0
 author: Precious O.
 main: ng.precious.LimitedEffects.Main
 prefix: LimitedEffects
 
 commands:
   le:
+    permission: limitedeffects.reload
     description: Reloads plugin config to reflect any changes made
     usage: /le reload
+
+permissions:
+  limitedeffects.*:
+    description: Wildcard, grants all plugin permissions
+    children:
+      limitedeffects.reload: true
+      limitedeffects.bypass: true
+  limitedeffects.reload:
+    description: Allows player to reload plugin config
+    default: op
+  limitedeffects.bypass:
+    description: Allows player to bypass limits
+    default: op

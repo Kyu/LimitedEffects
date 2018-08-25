@@ -16,7 +16,7 @@ public class CommandReload implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length > 0 && args[0].equals("reload")) {
-            if (sender.isOp() || sender instanceof ConsoleCommandSender) {
+            if (sender.isOp() || sender instanceof ConsoleCommandSender || sender.hasPermission("limitedeffects.reload")) {
                 plugin.reloadConfig();
                 sender.sendMessage(ChatColor.GREEN + "LimitedEffects reloaded successfully!" + ChatColor.RESET);
                 return true;
