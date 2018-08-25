@@ -18,16 +18,20 @@
 - `/le reload` : Reflects config changes in server
 
 #### Permissions
-- `limitedenchants.*` : Grants users all plugin permissions
-- `limtedenchants.reload`: Allows user to use `/le reload`
+- `limitedeffects.*` : Grants users all plugin permissions
+- `limitedeffects.reload`: Allows user to use `/le reload`
+- `limitedeffects.bypass` : Allows player to bypass all limits in all categories
+- `limitedeffects.bypass.enchants.*`: Allows player to bypass all enchant limits
+- `limitedeffects.bypass.enchants.limit` : Allows player to bypass all enchant upper limits
+- `limitedeffects.bypass.enchants.minimum`: Allows player to bypass all minimum enchant limits
 
 #### Download
 - [Latest Version](https://github.com/Kyu/LimitedEffects/releases/tag/v0.2.0)
 - [All Versions](https://github.com/Kyu/LimitedEffects/releases)
 
 #### TODO
-- Bypass permission
-- Minimum enchant level
+- ~~Bypass permission~~
+- ~~Minimum enchant level~~
 - Limit potion effects
 - More exhaustive config(limit specific effects, items, item types etc
 effects gained from other sources (like food), item stacking)

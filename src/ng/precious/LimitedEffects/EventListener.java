@@ -3,6 +3,7 @@ package ng.precious.LimitedEffects;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -28,7 +29,10 @@ public class EventListener implements org.bukkit.event.Listener {
     }
 
 
-    private boolean fixEnchantments(ItemStack item) {
+    private boolean fixEnchantments(ItemStack item, Player player) {
+        if (player.hasPermission("limitedeffects.bypass.enchants.*")) {
+            return false;
+        }
         FileConfiguration config = plugin.getConfig();
         if (item == null) {
             return false;
@@ -45,12 +49,14 @@ public class EventListener implements org.bukkit.event.Listener {
 
         // TODO test
         for (Map.Entry<Enchantment, Integer> enchantment : enchantments.entrySet()) {
-            if ((enchantment.getValue() < minimum) && minimum > 0) {
+            if (((enchantment.getValue() < minimum) && minimum > 0) &&
+            !player.hasPermission("limitedeffects.bypass.enchants.minimum")) {
                 item.addEnchantment(enchantment.getKey(), minimum);
                 fixed = true;
             }
 
-            if (enchantment.getValue() > limit) {
+            if ((enchantment.getValue() > limit) &&
+                    !player.hasPermission("limitedeffects.bypass.enchants.limit")) {
                 if (limit <= 0) {
                     item.removeEnchantment(enchantment.getKey());
                     fixed = true;
@@ -64,10 +70,10 @@ public class EventListener implements org.bukkit.event.Listener {
         return fixed;
     }
 
-    private void fixEnchantments(ItemStack[] items) {
+    private void fixEnchantments(ItemStack[] items, Player player) {
         for (ItemStack i : items) {
             if (i != null) {
-                fixEnchantments(i);
+                fixEnchantments(i, player);
             }
         }
     }
@@ -76,7 +82,7 @@ public class EventListener implements org.bukkit.event.Listener {
         Inventory inventory = player.getInventory();
         ItemStack[] items = inventory.getContents();
 
-        fixEnchantments(items);
+        fixEnchantments(items, player);
     }
 
 
@@ -87,26 +93,30 @@ public class EventListener implements org.bukkit.event.Listener {
         Player p = e.getPlayer();
 
         ItemStack item = p.getInventory().getItem(itemIndex);
-        fixEnchantments(item);
+        fixEnchantments(item, p);
     }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        fixEnchantments(e.getCursor());
-        fixEnchantments(e.getCurrentItem());
+        Player p = (Player) e.getWhoClicked();
+        fixEnchantments(e.getCursor(), p);
+        fixEnchantments(e.getCurrentItem(), p);
     }
 
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent e) {
-        fixEnchantments(e.getCursor());
-        fixEnchantments(e.getOldCursor());
+        Player p = (Player) e.getWhoClicked();
+        fixEnchantments(e.getCursor(), p);
+        fixEnchantments(e.getOldCursor(), p);
     }
 
     @EventHandler
     public void onEnchant(EnchantItemEvent e) {
+
         Bukkit.getScheduler().runTaskLater(this.plugin, new Runnable() {
             public void run() {
-                fixEnchantments(e.getItem());
+                Player p = e.getEnchanter();
+                fixEnchantments(e.getItem(), p);
             }
         }, 5);
     } // Can be replaced with Lambda - IDEA
@@ -114,9 +124,9 @@ public class EventListener implements org.bukkit.event.Listener {
     @EventHandler
     public void onItemPickup(EntityPickupItemEvent e) {
         ItemStack item = e.getItem().getItemStack();
-
-        if (e.getEntity() instanceof Player) { // item.hasMeta
-            fixEnchantments(item);
+        LivingEntity ent = e.getEntity();
+        if (ent instanceof Player) { // item.hasMeta
+            fixEnchantments(item, (Player) ent);
         }
 
     }
@@ -125,7 +135,8 @@ public class EventListener implements org.bukkit.event.Listener {
 
     @EventHandler
     public void onItemUse(BlockBreakEvent e) {
-        if (fixEnchantments(e.getPlayer().getInventory().getItemInMainHand())) {
+        Player p = e.getPlayer();
+        if (fixEnchantments(p.getInventory().getItemInMainHand(), p)) {
             e.setCancelled(true);
         }
     }
@@ -134,7 +145,7 @@ public class EventListener implements org.bukkit.event.Listener {
     public void onFishingRodUse(PlayerFishEvent e) {
         Player p = e.getPlayer();
         ItemStack rod = p.getInventory().getItemInMainHand();
-        if (fixEnchantments(rod)) {
+        if (fixEnchantments(rod, p)) {
             e.setCancelled(true);
         }
     }
@@ -147,7 +158,7 @@ public class EventListener implements org.bukkit.event.Listener {
         } else {
             return;
         }
-        if (fixEnchantments(attacker.getInventory().getItemInMainHand())) {
+        if (fixEnchantments(attacker.getInventory().getItemInMainHand(), attacker)) {
             e.setCancelled(true);
         }
     }

@@ -1,5 +1,5 @@
 name: LimitedEffects
-version: 0.3.0
+version: 0.4.0
 author: Precious O.
 main: ng.precious.LimitedEffects.Main
 prefix: LimitedEffects
@@ -20,5 +20,19 @@ permissions:
     description: Allows player to reload plugin config
     default: op
   limitedeffects.bypass:
-    description: Allows player to bypass limits
+    description: Allows player to bypass all limits in all categories
+    default: op
+    children:
+      limitedeffects.bypass.enchants.*: true
+  limitedeffects.bypass.enchants.*:
+    description: Allows player to bypass all enchant limits
+    default: op
+    children:
+      limitedeffects.bypass.enchants.limit: true
+      limitedeffects.bypass.enchants.minimum: true
+  limitedeffects.bypass.enchants.limit:
+    description: Allows player to bypass all enchant upper limits
+    default: op
+  limitedeffects.bypass.enchants.minimum:
+    description: Allows player to bypass all minimum enchant limits
     default: op
