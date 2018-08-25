@@ -1,5 +1,5 @@
 # LimitedEffects
-###### v 0.1.0
+###### v 0.2.0
 
 ## About
 - This plugin does what the name suggests, it limits effects such as Enchantments, Potions etc
@@ -10,7 +10,9 @@
 
 ## How to use
 - Change the limit number in the `config.yml` file to any number you want (Default is 6)
+- Set minimum enchant value(Default is 0)
 - Set limit at 0 to disable enchanting
+- Negative config values are treated as 0
 
 #### Commands
 - `/le reload` : Reflects config changes in server

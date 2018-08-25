@@ -41,13 +41,21 @@ public class EventListener implements org.bukkit.event.Listener {
         boolean fixed = false;
 
         int limit = config.getInt("limit");
+        int minimum = config.getInt("minimum");
+
+        // TODO test
         for (Map.Entry<Enchantment, Integer> enchantment : enchantments.entrySet()) {
+            if ((enchantment.getValue() < minimum) && minimum > 0) {
+                item.addEnchantment(enchantment.getKey(), minimum);
+                fixed = true;
+            }
+
             if (enchantment.getValue() > limit) {
-                if (limit == 0) {
+                if (limit <= 0) {
                     item.removeEnchantment(enchantment.getKey());
                     fixed = true;
                 } else {
-                    item.addEnchantment(enchantment.getKey(), config.getInt("limit"));
+                    item.addEnchantment(enchantment.getKey(), limit);
                     fixed = true;
                 }
 

@@ -14,12 +14,12 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
     }
 
     private void configureConfig() {
         FileConfiguration config = this.getConfig();
         config.addDefault("limit", 6);
+        config.addDefault("minimum", 0);
         config.options().copyDefaults(true);
         saveConfig();
     }
